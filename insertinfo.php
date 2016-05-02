@@ -3,32 +3,17 @@
 	$TRNDTE=$_GET['TRNDTE'];
 	$CHFID=$_GET['CHFID'];
 	$VEHIMMAT=$_GET['VEHIMMAT'];
-	$TRNPECCHAUFFEUR=$_GET['TRNPECCHAUFFEUR'];
+	$PrisEnChargeLe=$_GET['PrisEnChargeLe'];
 	$TRNCOMMENTAIRE=$_GET['TRNCOMMENTAIRE'];
 	//supprime les blancs devant et derrière la chaine
 	$TRNDTE=trim($TRNDTE);
 	$CHFID=trim($CHFID);
 	$VEHIMMAT=trim($VEHIMMAT);
 	
-	include 'connect.php';
-	
-	$sql = "SELECT TRNNUM FROM tournee";
-	$result = mysql_query($sql)
-	or die("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
-	
-	$i=0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
-		echo $row[0]." - ".$row[1]."<br />";
-		$i++;
-	}
-	$i+=1;
-	$row+=1;
-		
-	
 	if (empty($date)) {
 		include 'connectAD.php';
 
-		$sql = "INSERT INTO tournee (TRNNUM, TRNDTE, CHFID, VEHIMMAT, TRNPECCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$i','$TRNDTE', \"$CHFID\", \"$VEHIMMAT\", '$TRNPECCHAUFFEUR', '.$TRNCOMMENTAIRE.');";
+		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, PrisEnChargeLe, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '.$CHFID.', '.$VEHIMMAT.', '$PrisEnChargeLe', '.$TRNCOMMENTAIRE.');";
 		$result = executeSQL($connexion,$sql);
 		
 		if ($result)
