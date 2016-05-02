@@ -1,8 +1,4 @@
-	<title>Application Chauffeur</title>
-		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-		<meta http-equiv="content-language" content="fr" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	<script type="text/javascript">
+<script type="text/javascript">
   
 var timer = null;
 var OldDiv = "";
@@ -448,9 +444,9 @@ function ds_gettop(el) {
 //fonction permettant de positioner le calendrier
 function positionCalendar(objetParent){
     //document.getElementById('calendrier').style.left = ds_getleft(objetParent) + "px";
-    document.getElementById('calendrier').style.left = ds_getleft(objetParent) + "px";
+    document.getElementById('calendrier').style.left = ds_getleft(objetParent) + 200 + "px";
     //document.getElementById('calendrier').style.top = ds_gettop(objetParent) + 20 + "px" ;
-    document.getElementById('calendrier').style.top = ds_gettop(objetParent) + 20 + "px" ;
+    document.getElementById('calendrier').style.top = ds_gettop(objetParent) - 40 + "px" ;
     // et on le rend visible
     document.getElementById('calendrier').style.visibility = "visible";
 }
