@@ -1,58 +1,146 @@
 <?php
+/**
+ *  Bibliothèque de fonctions AccesDonnees.php
+ * 
+ *
+ * 
+ * @author Erwan
+ * @copyright Estran
+ * @version 3.1.1 du Jeudi 28 Avril 2016 14:44
+ *  - 
+ * 	- Enregistrement des requetes SQL dans le fichier requetes.sql possible
+ *  - Les requetes generant des erreurs sont automatiquement enregistrees
+ * 
+ */
 
-$modeacces = "mysql";
+
+
+///////////// CONFIGURATION DE L'ACCES AUX DONNEES ////////////////////
+
+// nom du moteur d'accès à la base : mysql - mysqli
+$modeacces = "mysqli";
+
+// enregistrement des logs de connexion : true - false
+$logcnx = FALSE;
+
+// enregistrement des requetes SQL : none - all - modif
+$logsql = "none";
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+
+$mysql_data_type_hash = array(
+		1=>'tinyint',
+		2=>'smallint',
+		3=>'int',
+		4=>'float',
+		5=>'double',
+		7=>'timestamp',
+		8=>'bigint',
+		9=>'mediumint',
+		10=>'date',
+		11=>'time',
+		12=>'datetime',
+		13=>'year',
+		16=>'bit',
+		//252 is currently mapped to all text and blob types (MySQL 5.0.51a)
+		252=>'blob',
+		253=>'varchar',
+		254=>'string',
+		246=>'decimal'
+);
+
+
 
 /**
- * Effectue une connexion à la bdd locale
- * @param unUtilisateur string
- * 	<p>Nom de l'utilisateur </p>
- * @param unMotdepasse string
- * 	<p>Mot de passe de l'utilisateur</p>
- * @param uneBasededonnee string
- * 	<p>Nom de la bdd </p>
  * 
- * @return Retourne l'identifiant de connexion MySQL en cas de succès ou False si une erreur survient.array
+ * Ouvre une connexion à un serveur MySQL et sélectionne une base de données.
+ * @param host string
+ *  <p>Adresse du serveur MySQL.</p>
+ * @param port integer
+ *  <p>Numéro du port du serveur MySQL.</p>
+ * @param dbname string
+ *  <p>Nom de la base de donnees.</p>
+ * @param user string
+ *  <p>Nom de l'utilisateur.</p>
+ * @param password string
+ *  <p>Mot de passe de l'utilisateur.</p>
  * 
- * @author Anaelle Rannou
- * 
- * @version 1.0
- * 
- * @copyright ESTRAN
-*/
-
+ * @return Retourne l'identifiant de connexion MySQL en cas de succès 
+ *         ou FALSE si une erreur survient.
+ */
 function connexion($host,$port,$dbname,$user,$password) {
 	
-	global $modeacces, $connexion;
+	global $modeacces, $logcnx, $connexion;
+	
+
 	
 	if ($modeacces=="mysql") {
-		@$link = mysql_connect("$host", "$user", "$password")
-		or die("Impossible de se connecter au serveur : " . mysql_error());
-		@$connexion = mysql_select_db("$dbname")
-		or die("Impossible d'ouvrir la base : ".mysql_error());
+			
+		@$link = mysql_connect("$host:$port", "$user", "$password");
+		
+		if (!$link) {
+			
+			$chaine = "Connexion PB - ".date("j M Y - G:i:s - ").$user." - ". mysql_error()."\r\n";	
+			
+		} else {
+			
+			@$connexion = mysql_select_db("$dbname");
+			if (!$connexion) {
+				$chaine = "Selection base PB - ".date("j M Y - G:i:s - ").$user." - ". mysql_error()."\r\n";	
+			} else {
+				$chaine = "Connexion OK - ".date("j M Y - G:i:s - ").$user."\r\n";	
+			}
+			
+		}
+		
+		if ($logcnx)
+			ecritFichierLog($chaine);
+				
+		
 		return $connexion;
+		
 	}
 
+	
 	if ($modeacces=="mysqli") {
+		
 		@$connexion = new mysqli("$host", "$user", "$password", "$dbname", $port);
 		if ($connexion->connect_error) {
-			die('Erreur de connexion (' . $connexion->connect_errno . ') '. $connexion->connect_error);
+			
+			$chaine = "Connexion PB - ".date("j M Y - G:i:s - ").$user." - ". $connexion->connect_error."\r\n";
+			$connexion = FALSE;
+			
+		} else {
+			
+			 $chaine = "Connexion OK - ".date("j M Y - G:i:s - ").$user."\r\n";
+			 
 		}
+		
+		if ($logcnx)
+			ecritFichierLog($chaine);
+				
+		
 		return $connexion;
-	}
+	}		
 
 }
 
-/** déconnecte la base de donnée
- * @param modeacces string permet de choisir le mode d'accès
- * 	<p>MySQL ou MySQLi</p>
- * @param connexion permet de connecter à la bdd
- * 	<p>utilisé en mysqli</p>
- * 
- * @mysql_close() ferme la connexion en mysql
- * 
- * @close() ferme la connexion faîte auparavant en mysqli()
- */
 
+function ecritFichierLog($uneChaine) {
+	$handle=fopen("log.txt","a");
+		fwrite($handle,$uneChaine);
+	fclose($handle);
+}
+
+
+/**
+ *
+ * Ferme la connexion MySQL.
+ *
+ */
 function deconnexion() {
 	
 	global $modeacces, $connexion;
@@ -67,79 +155,129 @@ function deconnexion() {
 
 }
 
-/*généraliser en écrivant la fonction 'executeSQL'
- qui sera indépendante du moteur d'accès aux données
-dans la librairie 'AccesDonnees.php'*/
+
 
 /**
- * function qui permet d'executer une requête sql
- * @param connexion paramètre qui permet de se connecter
- * 	<p>utlisé en mysqli</p>
- * @param sql paramètre qui permet d'obtenir la requète sql
- * 	<p>
+ *
+ *Envoie une requête à un serveur MySQL.
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ *
+ *
+ * @return  Pour les requêtes du type SELECT, SHOW, DESCRIBE, EXPLAIN et 
+ *          les autres requêtes retournant un jeu de résultats, mysql_query() 
+ *          retournera une ressource en cas de succès, ou FALSE en cas d'erreur.
+ *          
+ *          Pour les autres types de requêtes, INSERT, UPDATE, DELETE, DROP, etc., 
+ *          mysql_query() retourne TRUE en cas de succès ou FALSE en cas d'erreur. 
  */
+function executeSQL($sql) {
 
-
-function executeSQL ($connexion, $sql ) {
-
-global $modeacces, $connexion;
+	global $modeacces, $connexion, $logsql;
+	
+	$uneChaine = date("j M Y - G:i:s --> ").$sql."\r\n";
+	
+	if ($logsql=="all") {
+	
+		ecritRequeteSQL($uneChaine);
+	
+	} else {
+	
+		if ($logsql=="modif") {
+	
+			$mot=strtolower(substr($sql,0, 6));
+			if ($mot=="insert" || $mot=="update") {
+				ecritRequeteSQL($uneChaine);
+			}
+	
+		}
+	
+	}
 
 	if ($modeacces=="mysql") {
-		$result = mysql_query($sql)
-		//	or die ("Erreur SQL");
-		//or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__);
-		or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />
-			 Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".
-				mysql_error().
-				"<br /><br />
-				<b>REQUETE SQL : </b>$sql<br />");
+		$result = mysql_query($sql)		
+		or die (afficheErreur($sql, mysql_error()));		
+
 	}
 
 	if ($modeacces=="mysqli") {
-		$result = $connexion->query($sql)
-		//	or die ("Erreur SQL");
-		//or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__);
-		or die /*("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />
-			 Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".
-				mysql_error_list($connexion)[0]['error'].
-				"<br /><br />
-				<b>REQUETE SQL : </b>$sql<br />");*/;
-		return $result;
+		$result = $connexion->query($sql)		
+		or die (afficheErreur($sql, mysqli_error_list($connexion)[0]['error']));
+				//$mysqli->error_list;							
+
 	}
+	
+	return $result;
 }
 
-/**
- * 
- * @param unknown $connexion
- * @param unknown $sql
- * @return number|unknown
- */
+function afficheErreur($sql, $erreur) {
+	
+	$uneChaine = "ERREUR SQL : ".date("j M Y - G:i:s.u --> ").$sql." : ($erreur) \r\n";
+	
+	ecritRequeteSQL($uneChaine);
+	
+	return "Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"].
+	       "</b>.<br />Dans le fichier : ".__FILE__.
+	       " a la ligne : ".__LINE__.
+	       "<br />".$erreur.
+			"<br /><br /><b>REQUETE SQL : </b>$sql<br />";
+	
+}
 
-function compteSQL($connexion, $sql) {
+function ecritRequeteSQL($uneChaine) {
+	$handle=fopen("requete.sql","a");
+		fwrite($handle,$uneChaine);
+	fclose($handle);
+}
+
+
+/**
+ *
+ *Retourne le nombre de lignes d'une requete MySQL.
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ *
+ *
+ * @return Le nombre de lignes dans un jeu de résultats en cas de succès 
+ *         ou FALSE si une erreur survient. 
+ */
+function compteSQL($sql) {
 
 	global $modeacces, $connexion;
+	
+	$result = executeSQL($sql);
 
 	if ($modeacces=="mysql") {
-		$result = mysql_query($sql);
 		$num_rows = mysql_num_rows($result);
 		return $num_rows;
 	}
 
 	if ($modeacces=="mysqli") {
-		$result = $connexion->query($sql);
 		$num_rows = $connexion->affected_rows;
 		return $num_rows;
 	}
 
 }
 
-function tableSQL($connexion, $sql) {
+
+
+/**
+ *
+ *Retourne un tableau résultat d'une requete MySQL.
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ *
+ *
+ * @return un tableau résultat de la requete MySQL.
+ */
+function tableSQL($sql) {
 
 	global $modeacces, $connexion;
+	
+	$result = executeSQL($sql);
+	$rows=array();
 
 	if ($modeacces=="mysql") {
-		$result = mysql_query($sql);
-		$rows=array();
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
 			array_push($rows,$row);
 		}
@@ -147,8 +285,6 @@ function tableSQL($connexion, $sql) {
 	}
 
 	if ($modeacces=="mysqli") {
-		$result = $connexion->query($sql);
-		$rows=array();
 		while ($row = $result->fetch_array(MYSQLI_BOTH)) {
 			array_push($rows,$row);
 		}
@@ -157,23 +293,94 @@ function tableSQL($connexion, $sql) {
 
 }
 
-function champSQL($connexion, $sql) {
+
+
+/**
+ *
+ *Retourne un seul champ résultat d'une requete MySQL.
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ *
+ *
+ * @return une chaine résultat de la requete MySQL.
+ */
+function champSQL($sql) {
 
 	global $modeacces, $connexion;
-
+	
+	$result = executeSQL($sql);
+	
 	if ($modeacces=="mysql") {
-		$result = mysql_query($sql);
 		$rows = mysql_fetch_array($result, MYSQL_NUM);
 		return $rows[0];
 	}
 
-
 	if ($modeacces=="mysqli") {
-		$result = $connexion->query($sql);
 		$rows = $result->fetch_array(MYSQLI_NUM);
 		return $rows[0];
 	}
 
 }
+
+
+
+/**
+ *
+ *Retourne le nombre de champs d'une requete MySQL
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ *
+ *
+ * @return Retourne le nombre de champs d'un jeu de résultat en cas de succès 
+ *         ou FALSE si une erreur survient. 
+ */
+function nombrechamp($sql) {
+
+	global $modeacces, $connexion;
+	
+	$result = executeSQL($sql);
+
+	if ($modeacces=="mysql") {
+		return mysql_num_fields($result);
+	}
+
+	if ($modeacces=="mysqli") {
+		return  $result->field_count;
+	}
+
+}
+
+
+
+/**
+ *
+ *Retourne le type d'une colonne MySQL spécifique
+ * @param sql string
+ *  <p>Requete SQL.</p>
+ * @param field_offset integer
+ *  <p>La position numérique du champ. field_offset commence à 0. Si field_offset 
+ *     n'existe pas, une alerte E_WARNING sera également générée.</p>
+ *
+ *
+ * @return Retourne le type du champ retourné peut être : "int", "real", "string", "blob" 
+ *         ou d'autres, comme détaillé » dans la documentation MySQL.
+ */
+function typechamp($sql, $field_offset) {
+
+	global $modeacces, $connexion, $mysql_data_type_hash;
+
+	$result = executeSQL($sql);
+	
+	if ($modeacces=="mysql") {
+		return mysql_field_type($result, $field_offset);
+	}
+
+	if ($modeacces=="mysqli") {
+		return  $mysql_data_type_hash[$result->fetch_field_direct($field_offset)->type];	
+	}
+
+}
+
+
 
 ?>
