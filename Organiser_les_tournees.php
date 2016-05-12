@@ -55,7 +55,7 @@
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\">";	
 											while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-											echo "<option value=$row[1]>$row[0]</option>";
+											echo "<option value=$row[0]>$row[0]</option>";
 											}					
 										} else {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\" disabled=\"disabled\" >";	
