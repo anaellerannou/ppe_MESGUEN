@@ -5,16 +5,20 @@
 	$VEHIMMAT=$_GET['VEHIMMAT'];
 	$TRNARCHAUFFEUR=$_GET['TRNARCHAUFFEUR'];
 	$Heures=$_GET['Heures'];
-	$TRNARCHAUFFEUR=$TRNARCHAUFFEUR+' '+$Heures;
+	$TRNARCHAUFFEUR=$TRNARCHAUFFEUR." ".$Heures;
 	$TRNCOMMENTAIRE=$_GET['TRNCOMMENTAIRE'];
 	//supprime les blancs devant et derrière la chaine
 	$TRNDTE=trim($TRNDTE);
 	$CHFID=trim($CHFID);
 	$VEHIMMAT=trim($VEHIMMAT);
 	
+	include 'connectAD.php';
+	$sql="SELECT * FROM tournee;";
+	$cptTournee = compteSQL($connexion,$sql);	
+	$TRNNUM = $cptTournee++;
+	
 	if (empty($date)) {
-		include 'connectAD.php';
-		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, TRNARCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '$CHFID', '$VEHIMMAT', '$TRNARCHAUFFEUR', '$TRNCOMMENTAIRE');";
+		$sql = "INSERT INTO tournee (TRNNUM, TRNDTE, CHFID, VEHIMMAT, TRNARCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNNUM', '$TRNDTE', '$CHFID', '$VEHIMMAT', '$TRNARCHAUFFEUR', '$TRNCOMMENTAIRE');";
 		$result = executeSQL($connexion,$sql);
 		
 		if ($result)
