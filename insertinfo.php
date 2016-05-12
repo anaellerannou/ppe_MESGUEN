@@ -4,6 +4,8 @@
 	$CHFID=$_GET['CHFID'];
 	$VEHIMMAT=$_GET['VEHIMMAT'];
 	$TRNPECCHAUFFEUR=$_GET['TRNPECCHAUFFEUR'];
+	$Heures=$_GET['Heures'];
+	$TRNPECCHAUFFEUR=$TRNPECCHAUFFEUR+' '+$Heures;
 	$TRNCOMMENTAIRE=$_GET['TRNCOMMENTAIRE'];
 	//supprime les blancs devant et derrière la chaine
 	$TRNDTE=trim($TRNDTE);
