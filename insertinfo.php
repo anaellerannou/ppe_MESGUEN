@@ -15,7 +15,7 @@
 	include 'connectAD.php';
 	$sql="SELECT * FROM tournee;";
 	$cptTournee = compteSQL($connexion,$sql);	
-	$TRNNUM = $cptTournee++;
+	$TRNNUM = $cptTournee+1;
 	
 	if (empty($date)) {
 		$sql = "INSERT INTO tournee (TRNNUM, TRNDTE, CHFID, VEHIMMAT, TRNARCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNNUM', '$TRNDTE', '$CHFID', '$VEHIMMAT', '$TRNARCHAUFFEUR', '$TRNCOMMENTAIRE');";
