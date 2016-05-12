@@ -70,8 +70,8 @@
     										echo "&nbsp;";
     								?> 
 								<br/>
-								<label for="TRNPECCHAUFFEUR"></label><br/>
-								Pris en charge le <input type="text" name="TRNPECCHAUFFEUR" id="TRNPECCHAUFFEUR" class="calendrier" size="10" maxlength="10"/>
+								<label for="TRNARCHAUFFEUR"></label><br/>
+								Pris en charge le <input type="text" name="TRNARCHAUFFEUR" id="TRNARCHAUFFEUR" class="calendrier" size="10" maxlength="10"/>
 								<label for="Heures"></label>
 								à <input type="text" name="Heures" id="Heures" size="10" maxlength="5" value="00H00"/>
 						
