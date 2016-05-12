@@ -25,7 +25,7 @@
 										$sql = "SELECT * FROM chauffeur ORDER BY CHFNOM"; 
 										$result = executeSQL($connexion,$sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
-								$cpt=$connexion->affected_rows;
+								$cpt=compteSQL($connexion,$sql);
 										
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"CHFID\" id=\"CHFID\">";	
@@ -50,7 +50,7 @@
 										$sql = "SELECT * FROM vehicule"; 
 										$result = executeSQL($connexion,$sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
-										$cpt=$connexion->affected_rows;
+										$cpt=compteSQL($connexion,$sql);
 				
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\">";	
