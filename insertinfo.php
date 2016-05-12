@@ -12,8 +12,7 @@
 	
 	if (empty($date)) {
 		include 'connectAD.php';
-
-		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, TRNPECCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '.$CHFID.', '.$VEHIMMAT.', '$TRNPECCHAUFFEUR', '.$TRNCOMMENTAIRE.');";
+		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, TRNPECCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '$CHFID', '$VEHIMMAT', '$TRNPECCHAUFFEUR', '$TRNCOMMENTAIRE');";
 		$result = executeSQL($connexion,$sql);
 		
 		if ($result)
@@ -25,4 +24,3 @@
 		echo "<meta http-equiv='refresh' content='0;url=Organiser_les_tournees.php?message=<font color=red> Vous ne devez pas mettre d espace... </font>'>"
 	
 ?>
-
