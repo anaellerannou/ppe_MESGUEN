@@ -12,6 +12,23 @@
 	?>
 	
 	<body class="homepage">
+	<?php
+	if (isset($_GET['TRNNUM'])) {
+		
+	} else {
+	$sql = "SELECT TRNNUM FROM tournee";
+		$result = executeSQL($sql);
+		$results = tableSQL($sql);
+	
+	$i=0;
+	foreach ($results as $ligne) {
+		//on extrait chaque valeur de la ligne courante
+		$TRNNUM = $ligne[0];	
+		$i++;
+	}
+	$i+=1;
+	}
+	?>
 			<!-- Header -->
 					<!-- Inner -->
 							<header>
@@ -27,13 +44,18 @@
 									<?php	
 										$sql = "SELECT * FROM chauffeur ORDER BY CHFNOM"; 
 										$result = executeSQL($sql);
-								$cpt=compteSQL($sql);
+										$results = tableSQL($sql);
+										$cpt=compteSQL($sql);
 										
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"CHFID\" id=\"CHFID\">";	
-											while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-											echo "<option value=$row[0]>$row[1]</option>";
-											}					
+											foreach ($results as $ligne) {
+												//on extrait chaque valeur de la ligne courante
+												$CHFID = $ligne[0];
+												$CHFNOM = $ligne[1];
+											echo "<option value=$CHFID>$CHFNOM</option>";
+											
+											}		
 										} else {
 											echo "<select size=\"1\" name=\"CHFID\" id=\"CHFID\" disabled=\"disabled\" >";	
 											echo "<option>Aucune information...</option>";
@@ -51,13 +73,17 @@
 				   					<?php	
 										$sql = "SELECT * FROM vehicule"; 
 										$result = executeSQL($sql);
+										$results = tableSQL($sql);
 										$cpt=compteSQL($sql);
 				
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\">";	
-											while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-											echo "<option value=$row[0]>$row[0]</option>";
-											}					
+											foreach ($results as $ligne) {
+												//on extrait chaque valeur de la ligne courante
+												$VEHIMMAT = $ligne[0];
+											echo "<option value=$VEHIMMAT>$VEHIMMAT</option>";
+											
+											}						
 										} else {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\" disabled=\"disabled\" >";	
 											echo "<option>Aucune information...</option>";
@@ -83,7 +109,7 @@
 										<p>
 									<input id='tournee_valid' name='tournee_valid' type='submit' value='Valider'></input>
 								</form>
-								<form id='tournee_annul' action ='test2.php' method='get'>	
+								<form id='tournee_annul' action ='Organiser_les_tournees.php' method='get'>	
 									<br/><input id='tournee_annul' name='tournee_annul' type='submit' value='Annuler'></input>
 								</form>
 								<hr/>
@@ -102,7 +128,7 @@
 								?>
 								<p><a href=noname></a></p>
 										<footer>
-											<form id='etape_ajout' action ='' method='get'>	
+											<form id='etape_ajout' action ='organiser_une_etape.php' method='get'>	
 												<a><strong>
 												<button><img src="images/AjouterV2_3.png" title="Ajouter...">&nbsp; Ajouter</button>
 												</strong></a>
