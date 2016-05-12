@@ -23,7 +23,7 @@
 									<?php
 										include 'connectAD.php';	
 										$sql = "SELECT * FROM chauffeur ORDER BY CHFNOM"; 
-										$result = $connexion->query($sql)				
+										$result = executeSQL($connexion,$sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
 								$cpt=$connexion->affected_rows;
 										
@@ -48,7 +48,7 @@
 								Véhicule
 				   					<?php	
 										$sql = "SELECT * FROM vehicule"; 
-										$result = $connexion->query($sql)				
+										$result = executeSQL($connexion,$sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
 										$cpt=$connexion->affected_rows;
 				
