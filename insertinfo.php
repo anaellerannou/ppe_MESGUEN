@@ -1,11 +1,11 @@
 <?php
-	//on récupère les variables issue du formulaire
+	//on rÃ©cupÃ¨re les variables issue du formulaire
 	$TRNDTE=$_GET['TRNDTE'];
 	$CHFID=$_GET['CHFID'];
 	$VEHIMMAT=$_GET['VEHIMMAT'];
-	$PrisEnChargeLe=$_GET['PrisEnChargeLe'];
+	$TRNPECCHAUFFEUR=$_GET['TRNPECCHAUFFEUR'];
 	$TRNCOMMENTAIRE=$_GET['TRNCOMMENTAIRE'];
-	//supprime les blancs devant et derrière la chaine
+	//supprime les blancs devant et derriÃ¨re la chaine
 	$TRNDTE=trim($TRNDTE);
 	$CHFID=trim($CHFID);
 	$VEHIMMAT=trim($VEHIMMAT);
@@ -13,7 +13,7 @@
 	if (empty($date)) {
 		include 'connectAD.php';
 
-		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, PrisEnChargeLe, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '.$CHFID.', '.$VEHIMMAT.', '$PrisEnChargeLe', '.$TRNCOMMENTAIRE.');";
+		$sql = "INSERT INTO tournee (TRNDTE, CHFID, VEHIMMAT, TRNPECCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNDTE', '.$CHFID.', '.$VEHIMMAT.', '$TRNPECCHAUFFEUR', '.$TRNCOMMENTAIRE.');";
 		$result = executeSQL($connexion,$sql);
 		
 		if ($result)
