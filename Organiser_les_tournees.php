@@ -21,15 +21,15 @@
 								<label for="CHFID"></label><br/>
 								Chauffeur 
 									<?php
-										include 'connect.php';	
+										include 'connectAD.php';	
 										$sql = "SELECT * FROM chauffeur ORDER BY CHFNOM"; 
-										$result = mysql_query($sql)				
+										$result = $connexion->query($sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
-								$cpt=mysql_num_rows($result);
+								$cpt=$connexion->affected_rows;
 										
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"CHFID\" id=\"CHFID\">";	
-											while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+											while ($row = $result->fetch_array(MYSQLI_BOTH)) {
 											echo "<option value=$row[0]>$row[1]</option>";
 											}					
 										} else {
@@ -45,17 +45,16 @@
     										echo "&nbsp;";
     								?><br/>
 								<label for="VEHIMMAT"></label>
-								Véhicule
-				   					<?php
-										include 'connect.php';	
+								VÃ©hicule
+				   					<?php	
 										$sql = "SELECT * FROM vehicule"; 
-										$result = mysql_query($sql)				
+										$result = $connexion->query($sql)				
 										or die ("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
-										$cpt=mysql_num_rows($result);
+										$cpt=$connexion->affected_rows;
 				
 										if ($cpt>0) {
 											echo "<select size=\"1\" name=\"VEHIMMAT\" id=\"VEHIMMAT\">";	
-											while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+											while ($row = $result->fetch_array(MYSQLI_BOTH)) {
 											echo "<option value=$row[0]>$row[1]</option>";
 											}					
 										} else {
@@ -74,7 +73,7 @@
 								<label for="TRNPECCHAUFFEUR"></label><br/>
 								Pris en charge le <input type="text" name="TRNPECCHAUFFEUR" id="TRNPECCHAUFFEUR" class="calendrier" size="10" maxlength="10"/>
 								<label for="Heures"></label>
-								à <input type="text" name="Heures" id="Heures" size="10" maxlength="5" value="00H00"/>
+								Ã  <input type="text" name="Heures" id="Heures" size="10" maxlength="5" value="00H00"/>
 						
 								<br/>
 								<label for="TRNCOMMENTAIRE"></label><br/>
@@ -90,10 +89,8 @@
 								</p>
 								<strong>Etapes</strong><br/><br/>
 								<?php
-									include 'connectAD.php';
 									echo "<br/>";	
 									include 'ListeEtape.php';				
-
 								?>
 								
 								<?php
