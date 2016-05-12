@@ -14,12 +14,12 @@
 	
 	include 'connectAD.php';
 	$sql="SELECT * FROM tournee;";
-	$cptTournee = compteSQL($connexion,$sql);	
+	$cptTournee = compteSQL($sql);	
 	$TRNNUM = $cptTournee+1;
 	
 	if (empty($date)) {
 		$sql = "INSERT INTO tournee (TRNNUM, TRNDTE, CHFID, VEHIMMAT, TRNARCHAUFFEUR, TRNCOMMENTAIRE) VALUES ('$TRNNUM', '$TRNDTE', '$CHFID', '$VEHIMMAT', '$TRNARCHAUFFEUR', '$TRNCOMMENTAIRE');";
-		$result = executeSQL($connexion,$sql);
+		$result = executeSQL($sql);
 		
 		if ($result)
 			echo "<meta http-equiv='refresh' content='0;url=Organiser_les_tournees.php?message=<font color=green> Ajout realise </font>'>";
