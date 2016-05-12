@@ -1,8 +1,8 @@
 <?php
 	
 	$sql="SELECT ETPID,LIEUNOM FROM etape,lieu where etape.LIEUID=lieu.LIEUID ORDER BY ETPID;";
-	$cptEtape = compteSQL($connexion,$sql);
-	$results = tableSQL($connexion,$sql);	
+	$cptEtape = compteSQL($sql);
+	$results = tableSQL($sql);	
 	
 	echo "<table id=\"affichetableau\">";
 	echo "<tbody>";
