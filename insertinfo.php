@@ -15,17 +15,16 @@
 	include 'connectAD.php';
 	
 	$sql = "SELECT TRNNUM FROM tournee";
-	$result = executeSQL($sql)
-	or die("Erreur SQL de <b>".$_SERVER["SCRIPT_NAME"]."</b>.<br />Dans le fichier : ".__FILE__." a la ligne : ".__LINE__."<br />".mysql_error()."<br /><br /><b>REQUETE SQL : </b>$sql<br />");
+		$result = executeSQL($sql);
+		$results = tableSQL($sql);
 	
 	$i=0;
-	while ($row = $result->fetch_array(MYSQLI_BOTH)) {
-		echo $row[0]."<br />";
+	foreach ($results as $ligne) {
+		//on extrait chaque valeur de la ligne courante
+		$TRNNUM = $ligne[0];	
 		$i++;
 	}
 	$i+=1;
-	$row+=1;
-		
 	
 	if (empty($date)) {
 
