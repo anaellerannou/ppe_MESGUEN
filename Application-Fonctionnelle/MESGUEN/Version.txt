@@ -1,0 +1,16 @@
+Application chauffeur Transport Mesguen
+
+Version V1.2 - 19 mai 2016 14H46 :
+- Changement de la modification des étapes pour y ajouter plus d'informations
+
+Version V1.1 - 17 mai 2016 16H34 :
+- Affiche le départ et l'arrivée dans l'ordre dans le tableau des tournées
+
+version V1.0 - 17 mai 2016 13H49 :
+- Rassemblement des parties AC11, AC12 et AC13
+- Ajout de la possibilitée d'ajouter une tournée
+- Ajout de la possibilitée de supprimer une tournée
+- Ajout de la possibilitée de modifier une tournée
+- Ajout de la possibilitée d'ajouter une étape si la tournée est créée
+- Ajout de la possibilitée de supprimer une étape
+- Ajout de la possibilitée de modifier une étape

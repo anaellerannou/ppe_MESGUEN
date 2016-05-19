@@ -1,0 +1,177 @@
+@CHARSET "ISO-8859-1";
+	body {
+		font-family : calibri
+		}
+		
+	p {
+		background : #84B233;
+		color : #FFFFFF;
+		text-align : center
+		}
+		
+	fieldset {
+			border:0px
+			}
+			
+	select {
+			position : absolute;
+			left : 38%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			text-align : right;
+			color : #84B233;
+			width : 10%;
+			}
+			
+	label {
+		position : absolute;
+		left : 30%;
+		width : 20%;
+		}
+			
+	
+			
+	input {
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			color : #84B233;
+			}
+			
+	#titre1
+	{
+		position : absolute;
+		left : 30%;
+		width : 20%;	
+	}
+		
+	#titre2
+	{
+		position : absolute;
+		left : 30%;
+		width : 20%;
+		font-weight : bold;	
+	}
+	
+	#titre3
+	{
+		position : absolute;
+		left : 40%;
+		width : 20%;
+		font-weight : bold;	
+	}
+	
+		#titre4
+	{
+		position : absolute;
+		left : 41%;
+		width : 20%;
+		font-weight : bold;	
+	}
+	
+	#contenue1
+	{
+			position : absolute;
+			left : 33%;
+			text-align : right;
+			color : #84B233;	
+	}
+	
+	#contenue2
+	{
+			position : absolute;
+			left : 44%;
+			text-align : right;
+			color : #84B233;	
+	}
+	
+	#contenue3
+	{
+			position : absolute;
+			left : 35%;
+			text-align : right;
+			color : #84B233;	
+	}
+	
+	#contenue4
+	{
+			position : absolute;
+			left : 46%;
+			text-align : right;
+			color : #84B233;	
+	}
+	
+	#contenue5
+	{
+			position : absolute;
+			left : 38%;
+			text-align : right;
+			color : #84B233;	
+	}	
+	
+	#lieuPos
+	{
+			position : absolute;
+			left : 40%;
+			text-align : right;
+			color : #84B233;	
+	}
+			
+	
+			
+			/* régler taille image */
+			
+	#valider {
+				position : absolute;
+				width: 200px;
+				left: 45%;
+				top : 510px;
+				width : 5%
+				
+			}
+				
+	#retour {	
+				position : absolute;
+				width : 5%;
+				left : 30%;
+				top : 510px;
+			}
+			
+	#photo {	
+				position : absolute;
+				width : 10%;
+				left : 35%;
+				top : 510px;
+			}
+			
+	textarea {
+			position : absolute;
+			left : 45%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			width : 10%;
+			}
+			
+	#bords
+	{
+		border-color : #84B233;
+		border-style : solid;
+		border-width : 1px;
+	}
+			
+	
+			
+	#commentaire {
+			position : absolute;
+			left : 30%;
+			width : 20%;
+			text-align : left;
+			color : #84B233;
+			}
+			
+	/*#annuler {
+			position : absolute;
+			left : 50%;
+			}*/
