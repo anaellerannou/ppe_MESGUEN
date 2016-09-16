@@ -1,0 +1,27 @@
+@CHARSET "ISO-8859-1";
+	body {
+		font-family : calibri
+		}
+		
+	
+			
+	input {
+			position : absolute;
+			top : 50%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			width: 10%;
+			text-align : right;
+			color : #84B233;
+			}
+			
+	#photo {left : 40%}
+	#add {left : 52%}
+	
+	img {
+		position : absolute;
+		left : 33%;
+		top : 10%;
+	}
+	
