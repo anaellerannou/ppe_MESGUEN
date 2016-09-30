@@ -1,5 +1,5 @@
 <?php 
-// On démarre la session AVANT d'écrire du code HTML
+// On dÃ©marre la session AVANT d'Ã©crire du code HTML
 session_start();
 ?>
 <!DOCTYPE HTML>
@@ -36,6 +36,8 @@ session_start();
 				$VEHIMMAT = $ligne[1];
 				$CHFID = $ligne[2];
 				$TRNDTE = $ligne[3];
+				$tabDate = explode('-', $TRNDTE);
+				$TRNDTE = $tabDate[2]."/".$tabDate[1]."/".$tabDate[0];
 				
 			}
 			$VEHIMMAT_SAVE=$VEHIMMAT;
@@ -160,7 +162,7 @@ session_start();
 			</div>
 			
 			<div class="row">
-	      		<div class="col-lg-4"><label for="Heures">à</label></div>
+	      		<div class="col-lg-4"><label for="Heures">Ã </label></div>
 			 	<div class="col-lg-8"><input type="text" name="Heures" id="Heures" size="5" maxlength="5" value="00H00"/></div>
 			<br/><br/>
 			</div>
