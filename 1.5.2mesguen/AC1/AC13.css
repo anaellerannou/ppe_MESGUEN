@@ -1,0 +1,84 @@
+@CHARSET "ISO-8859-1";
+	body {
+		font-family : calibri
+		}
+		
+	
+		
+	p {
+		background : #84B233;
+		color : #FFFFFF;
+		text-align : center
+		}
+		
+	fieldset {
+			border:0px
+			}
+			
+	select {
+			position : absolute;
+			left : 45%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			text-align : right;
+			color : #84B233;
+			width : 10%;
+			}
+			
+	label {
+		position : absolute;
+		left : 30%;
+		width : 20%;
+		}
+			
+	
+			
+	input {
+			position : absolute;
+			left : 45%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			width: 10%;
+			text-align : right;
+			color : #84B233;
+			}
+			
+	
+			
+			/* régler taille image */
+			
+	#valider {
+				border : none;
+				width: 200px;
+				left: 52%;
+				top : 60%;
+				width : 3%
+				
+				}
+				
+	#annuler {	top : 60%;
+				border : none;
+				width : 3%;
+				left : 46%}
+			
+	textarea {
+			position : absolute;
+			left : 45%;
+			border-color : #84B233;
+			border-style : solid;
+			border-width : 1px;
+			width : 10%;
+			}
+			
+	
+			
+	#commentaire {
+			height : 100px
+			}
+			
+	/*#annuler {
+			position : absolute;
+			left : 50%;
+			}*/
