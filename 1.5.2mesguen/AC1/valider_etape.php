@@ -1,5 +1,5 @@
 <?php
-// On démarre la session AVANT d'écrire du code HTML
+// On dÃ©marre la session AVANT d'Ã©crire du code HTML
 session_start();
 
 /*
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `test` (
 	include '../connectAD.php';
 	//on recupere les variable issue du formulaire
 	
-	//pour l'instant n'affiche que un trnnum (par ex 1) associe à un 1 : $etpid=11
+	//pour l'instant n'affiche que un trnnum (par ex 1) associe Ã  un 1 : $etpid=11
 	$lieu=$_GET['lieu'];
 	$heure_rdv_tot=$_GET['heure_rdv_tot'];
 	$heure_rdv_tard=$_GET['heure_rdv_tard'];
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `test` (
 	$Heure=$_GET['Heure'];
 	$TRNARCHAUFFEUR=$date_prise_en_charge.' '.$Heure;
 	
-	//supprime les blancs devant et derrière la chaine
+	//supprime les blancs devant et derriÃ¨re la chaine
 	
 	$commentaire=trim($commentaire);	
 
@@ -35,19 +35,19 @@ CREATE TABLE IF NOT EXISTS `test` (
 	$sqlDate = $tabDate[2]."-".$tabDate[1]."-".$tabDate[0];
 	
 	$sql0= "SET FOREIGN_KEY_CHECKS = 0";
-	echo "SQL : $sql0<br/>";
+	// echo "SQL : $sql0<br/>";
 	$result = executeSQL($sql0);
 	
 	$sql = "INSERT INTO etape (TRNNUM, ETPID, LIEUID, ETPCOMMENTAIRE, ETPHREDEBUT, ETPHREFIN) VALUES ('$TRNNUM','$ETPID','$lieu', \"$commentaire\", \"$sqlDate $heure_rdv_tot\", '$sqlDate $heure_rdv_tard');";
 	$sql2 = "UPDATE `mesguen`.`tournee` SET `TRNARCHAUFFEUR` = '$TRNARCHAUFFEUR' WHERE `tournee`.`TRNNUM` = '$TRNNUM'";
 	
-	echo "<br />sql etape : $sql <br /><br />";
+	// echo "<br />sql etape : $sql <br /><br />";
 	$result = executeSQL($sql);
-	echo "<br />sql etape : $sql2 <br /><br />";
+	// echo "<br />sql etape : $sql2 <br /><br />";
 	$result2 = executeSQL($sql2);
 	
 	$sql3= "SET FOREIGN_KEY_CHECKS = 1";
-	echo "SQL : $sql3<br/>";
+	// echo "SQL : $sql3<br/>";
 	$result3 = executeSQL($sql3);
 	
 	if ($result) {
